@@ -1,0 +1,69 @@
+{% extends "base_layout.html" %}
+{% block title %}Library Management System - Student All Book Page{% endblock %}
+{% block content %}
+  <div class="header">
+    <h1>{{user.name}} {{user.surname}}'s  All Book Page</h1>
+    <a href="/logout" class="btn btn-outline-info btn-lg">Logout</a>
+  </div>
+  <nav class="navbar" style="background-color: aqua;">
+    <a href="/student_dashboard/all_books" style="color: #EA445A;text-decoration: none;">All Books</a>
+    <a href="/student_dashboard/my_books" style="color: #EA445A;text-decoration: none;">My Books</a>
+    <a href="/student_dashboard" style="color: #EA445A;text-decoration: none;">Back to Dashboard</a>
+    <form method="POST" action="/search_books" class="d-flex" role="search">
+        <input type="text" name="query" placeholder="Search books"class="form-control me-2" style="color: black;">
+        <select name="filter" placeholder="" class="form-select" id="search-form">
+            <option value="book_name">Book Title</option>
+            <option value="author">Author</option>
+            <option value="section">Section</option>
+            <option value="all">All Books</option>
+        </select>
+        <input type="submit"value="Search" class="btn btn-outline-dark" id="search-btn"></input>
+    </form>
+  </nav>
+  <div style="background-color: black; color: yellow;">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <p>{{message}}</p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    </div>
+
+
+    <table class="table" style="width: 80%;margin-left: 2%;text-align: center;">
+        <h3>All Books</h3>
+        <tr class="table-light">
+            <th>#</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Section </th>
+            <th>Download PDF</th>
+            <th>Action</th>
+            <th>Average Ratings</th>
+        </tr>
+        {% for book, section in books %}
+        <tr class="table-info">
+            <td>{{ loop.index }}</td>
+            <td>{{ book.book_name }}</td>
+            <td>{{ book.author_1 }}  </td>
+            <td>{{ section.name }}</td>
+            {% if payment_status.get(book.id, False) %}
+                <td><a href="{{ url_for('initiate_download', book_id=book.id) }}" class="btn btn-outline-primary">Download PDF</a></td>
+            {% else %}
+            <td><a href="{{ url_for('payment_gateway', book_id=book.id) }}" class="btn btn-outline-dark">Pay For Download</a></td>
+            {% endif %}
+            <td>
+                <form action="/request_book/{{ book.id }}" method="post">
+                    {% if book.requested %}
+                        <button type="button" disabled class="btn btn-outline-dark" style="background-color: yellow;color:#EA445A;font-weight: bold;">Requested</button>    
+                    {% else %}
+                        <button type="submit" class="btn btn-outline-dark">Request Book</button>
+                    {% endif %}
+                </form>
+            </td>
+            <td>{{ ratings.get(book.id, 'N/A') }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

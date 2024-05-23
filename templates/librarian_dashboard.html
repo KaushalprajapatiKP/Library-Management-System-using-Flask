@@ -1,0 +1,51 @@
+{% extends "base_layout.html" %}
+{% block title %}Library Management System - Librarian Dashboard Page{% endblock %}
+{% block content %}
+  <div class="header">
+    <h1>Librarian's  Dashboard</h1>
+    <a href="/logout" class="btn btn-outline-info btn-lg">Logout</a>
+  </div>
+  <nav class="navbar" style="background-color: aqua;">
+    <a href="/librarian_dashboard/add_section" style="color: #EA445A;text-decoration: none;">Add Section</a>
+    <a href="/librarian_dashboard/add_books" style="color: #EA445A;text-decoration: none;">Add Books</a>
+    <a href="/librarian_dashboard/pending_requests" style="color: #EA445A;text-decoration: none;">Pending Requests</a>
+    <a href="/librarian_dashboard/librarian_stats" style="color: #EA445A;text-decoration: none;">Stats</a>
+    <form method="POST" action="/search_books" class="d-flex" role="search">
+        <input type="text" name="query" placeholder="Search books"class="form-control me-2" style="color: black;">
+        <select name="filter" placeholder="" class="form-select" id="search-form">
+            <option value="book_name">Book Title</option>
+            <option value="author">Author</option>
+            <option value="section">Section</option>
+            <option value="all">All Books</option>
+        </select>
+        <input type="submit"value="Search" class="btn btn-outline-dark" id="search-btn"></input>
+    </form>
+  </nav>
+  <div style="background-color: black; color: yellow;">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <p>{{message}}</p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    </div>
+
+    <div class="container">
+        <div class="row">
+                {% for section in sections %}
+                <div class="col-md-4">
+                    <div class="section">
+                        <h2>{{ section.id }}</h2>
+                        <h2 style="text-transform: uppercase; color: aqua; font-style: italic;">{{ section.name }}</h2>
+                        <p><span style="color: aqua;">Section Description:</span> {{ section.description }}</p>
+                        <p><span style="color: aqua;">Date Created:</span>{{ section.date_created }}</p>
+                        <a href="/librarian_dashboard/edit_section/{{section.id}}" class="btn btn-outline-info">Edit Section</a>
+                        <a  href="/delete_section/{{section.id}}" class="btn btn-outline-info">Delete Section</a>
+                        <a href="/librarian_dashboard/add_books" class="btn btn-outline-info">Add Books</a>
+                        <a href="/librarian_dashboard/section/{{section.id}}" class="btn btn-outline-info">Books</a>
+                        
+                    </div>
+                </div>
+                {% endfor %}
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "base_layout.html" %}
+{% block title %}Library Management System - Student Dashboard Page{% endblock %}
+{% block content %}
+  <div class="header">
+    <h1>{{user.name}} {{user.surname}}'s  Dashboard</h1>
+    <a href="/logout" class="btn btn-outline-info btn-lg">Logout</a>
+  </div>
+  <nav class="navbar" style="background-color: aqua;">
+    <a href="/student_dashboard/all_books" style="color: #EA445A;text-decoration: none;">All Books</a>
+    <a href="/student_dashboard/my_books" style="color: #EA445A;text-decoration: none;">My Books</a>
+    <a href="/student_dashboard/edit_profile" style="color: #EA445A;text-decoration: none;">Edit Profile</a>
+    <form method="POST" action="/search_books" class="d-flex" role="search">
+        <input type="text" name="query" placeholder="Search books"class="form-control me-2" style="color: black;">
+        <select name="filter" placeholder="" class="form-select" id="search-form">
+            <option value="book_name">Book Title</option>
+            <option value="author">Author</option>
+            <option value="section">Section</option>
+            <option value="all">All Books</option>
+        </select>
+        <input type="submit"value="Search" class="btn btn-outline-dark" id="search-btn"></input>
+    </form>
+  </nav>
+  <div style="background-color: black; color: yellow;">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <p>{{message}}</p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    </div>
+
+    <div class="student-profile">
+        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="white" class="bi bi-person-circle"viewBox="0 0 16 16">
+            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+          </svg>
+        <h3>Name:<span style="color: #EA445A;padding-top: 600%;"> {{user.name}} {{user.surname}}</span></h3>
+        <p><span style="color: aqua;">Username:</span>{{user.username}}</p>
+        <p><span style="color: aqua;">Roll No:</span>{{user.rollno}}</p>
+        <p><span style="color: aqua;">Date of  Birth:</span>{{user.dateofbirth}}</p>
+        <p><span style="color: aqua;">Gender:</span>{{user.gender}}</p>
+    </div>
+{%endblock%}

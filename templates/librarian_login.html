@@ -1,0 +1,38 @@
+{% extends "base_layout.html" %}
+{% block title %}Library Management System - Librarian Login Page{% endblock %}
+{% block content %}
+  <div class="header">
+    <h1>Library Management System</h1>
+    <a href="/" class="btn btn-outline-info btn-lg">Back to Home Page</a>
+  </div>
+  <div style="background-color: white;">
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for message in messages %}
+        <p>{{message}}</p>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+  </div>
+  <div class="row justify-content-center align-items-center" >
+    <div class="col-md-6">
+          <form method="POST" class="p-4 shadow-lg ">
+            <h3>Librarian Login Page</h3>
+            <div class="row mb-3 form-group">
+            <label for="username" style="color: aqua;">Username:</label>
+            <div class="col-sm-10">
+            <input type="text" name="username" class="form-control" required>
+            </div>
+            </div>
+            <div class="row mb-3 form-group">
+              <label for="username" style="color: aqua;">Password:</label>
+              <div class="col-sm-10">
+              <input type="password" name="password" class="form-control" required>
+              </div>
+              </div>
+            <input type="submit" value="Login" class="btn btn-outline-info btn-lg form-group">
+          </form>  
+    </div>
+  </div>
+  
+  {% endblock %}

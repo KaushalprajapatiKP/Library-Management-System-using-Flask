@@ -1,0 +1,51 @@
+{% extends "base_layout.html" %}
+{% block title %}Library Management System - Search-result Page{% endblock %}
+{% block content %}
+  <div class="header">
+    <h1>Search-Result Page</h1>
+    <a href="/logout" class="btn btn-outline-info btn-lg">Logout</a>
+  </div>
+  
+  <div style="background-color: brown; color: yellow;">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <p>{{message}}</p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    </div>
+
+        <div>
+            <h3>Books Based on Your Search</h3>
+        {% if books|length >= 1 %}
+            <table class="table" style="width: 80%;margin-left: 2%;text-align:center;">
+                <tr class="table-light">
+                    <th>#</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Section  </th>
+                    <th>Action</th>
+                </tr>
+                {% for book, section in books %}
+                <tr class="table-info">
+                    <td>{{ loop.index }}</td>
+                    <td>{{ book.book_name }}</td>
+                    <td>{{ book.author_1 }}  </td>
+                    <td>{{ section.name }}</td>
+                    <td>
+                        <form action="/request_book/{{ book.id }}" method="post">
+                            {% if book.requested %}
+                                <button type="button" disabled class="btn btn-outline-info" style="background-color: yellow; color:#EA445A ;font-weight:bold;">Requested</button>    
+                            {% else %}
+                                <button type="submit" class="btn btn-outline-dark" style="font-weight: bold;">Request Book</button>
+                            {% endif %}
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <h3>No Books Available</h3>
+        {% endif %}
+{%endblock%}

@@ -1,0 +1,25 @@
+{% extends "base_layout.html" %}
+{% block title %}Library Management System - Payment Gateway{% endblock %}
+{% block content %}
+  <div class="header">
+    <h1>Payment Gateway</h1>
+    <a href="/logout" class="btn btn-outline-info btn-lg">Logout</a>
+  </div>
+    <h3>Book Name: <span style="text-transform: capitalize; color: #EA445A;">{{book.book_name}}</span></h3>
+    
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-6">
+        <form action="/process_payment/{{book.id}}" method="post" class="p-4 shadow-lg ">
+        <h3>Choose Payment Method</h3>
+        <div class="row mb-3 form-group">
+        <div class="col-sm-10">
+            <select id="payment_method" name="payment_method" class="form-select">
+                <option value="debit_card">Debit Card</option>
+                <option value="credit_card">Credit Card</option>
+                <option value="upi">UPI</option>
+            </select>
+        </div>
+        </div>
+        <button type="submit" class="btn btn-outline-info btn-lg form-group">Submit</button>
+    </form>
+{% endblock %}

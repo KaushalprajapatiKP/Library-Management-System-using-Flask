@@ -1,0 +1,80 @@
+{% extends "base_layout.html" %}
+{% block title %}Library Management System - Student Review Book Page{% endblock %}
+{% block content %}
+  <div class="header">
+    <h1>{{user.name}} {{user.surname}}'s  Review Book Page</h1>
+    <a href="/logout" class="btn btn-outline-info btn-lg">Logout</a>
+  </div>
+  <nav class="navbar" style="background-color: aqua;">
+    <a href="/student_dashboard/all_books" style="color: #EA445A;text-decoration: none;">All Books</a>
+    <a href="/student_dashboard/my_books" style="color: #EA445A;text-decoration: none;">My Books</a>
+    <a href="/student_dashboard" style="color: #EA445A;text-decoration: none;">Back to Dashboard</a>
+    <form method="POST" action="/search_books" class="d-flex" role="search">
+        <input type="text" name="query" placeholder="Search books"class="form-control me-2" style="color: black;">
+        <select name="filter" placeholder="" class="form-select" id="search-form">
+            <option value="book_name">Book Title</option>
+            <option value="author">Author</option>
+            <option value="section">Section</option>
+            <option value="all">All Books</option>
+        </select>
+        <input type="submit"value="Search" class="btn btn-outline-dark" id="search-btn"></input>
+    </form>
+  </nav>
+  <div style="background-color: black; color: yellow;">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <p>{{message}}</p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    </div>
+
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-6">
+        <form method="POST" class="p-4 shadow-lg ">
+            <div class="row mb-3 form-group">
+            <label for="book_id" style="color: aqua;">Book ID:</label>
+            <div class="col-sm-10">
+                <input type="text" id="book_id" name="book_id" value="{{book.id}}" readonly class="form-control" >
+            </div>
+            </div>
+
+            <div class="row mb-3 form-group">
+            <label for="book_name" style="color: aqua;">Book Name:</label>
+            <div class="col-sm-10">
+                <input type="text" id="book_name" name="book_name" value="{{book.book_name}}" class="form-control" readonly>
+            </div>
+            </div>
+
+            <div class="row mb-3 form-group"> 
+            <label for="student_id" style="color: aqua;">Student ID:</label>
+            <div class="col-sm-10">
+                <input type="text" id="student_id" name="student_id" value="{{user.id}}" class="form-control" readonly>
+            </div>
+            </div>
+        
+            <div class="row mb-3 form-group">
+            <label for="rating" style="color: aqua;">Rating:</label>
+            <div class="col-sm-10">
+                <select id="rating" name="rating" required style="background-color: black;" class="form-select">
+                    <option value="1">⭐ </option>
+                    <option value="2">⭐⭐</option>
+                    <option value="3">⭐⭐⭐</option>
+                    <option value="4">⭐⭐⭐⭐</option>
+                    <option value="5">⭐⭐⭐⭐⭐</option>
+                </select>
+            </div>
+            </div>
+
+            <div class="row mb-3 form-group">
+            <label for="review_text" style="color: aqua;">Review:</label>
+            <div class="col-sm-10">
+                <textarea id="review_text" name="review_text" rows="4" class="form-control" placeholder="Review Book Here!"></textarea>
+            </div>
+            </div>
+            <button type="submit" class="btn btn-outline-info">Submit Review</button>
+        </form>
+        </div>
+    </div>
+{% endblock %}

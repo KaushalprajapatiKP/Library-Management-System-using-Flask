@@ -1,0 +1,71 @@
+{% extends "base_layout.html" %}
+{% block title %}Library Management System - Librarian Pending Requests Page{% endblock %}
+{% block content %}
+  <div class="header">
+    <h1>Librarian's Pending Requests Page</h1>
+    <a href="/logout" class="btn btn-outline-info btn-lg">Logout</a>
+  </div>
+  <nav class="navbar" style="background-color: aqua;">
+    <a href="/librarian_dashboard/add_section" style="color: #EA445A;text-decoration: none;">Add Section</a>
+    <a href="/librarian_dashboard/add_books" style="color: #EA445A;text-decoration: none;">Add Books</a>
+    <a href="/librarian_dashboard/librarian_stats" style="color: #EA445A;text-decoration: none;">Stats</a>
+    <a href="/librarian_dashboard" style="color: #EA445A;text-decoration: none;">Back to Dashboard</a>
+    <form method="POST" action="/search_books" class="d-flex" role="search">
+        <input type="text" name="query" placeholder="Search books"class="form-control me-2" style="color: black;">
+        <select name="filter" placeholder="" class="form-select" id="search-form">
+            <option value="book_name">Book Title</option>
+            <option value="author">Author</option>
+            <option value="section">Section</option>
+            <option value="all">All Books</option>
+        </select>
+        <input type="submit"value="Search" class="btn btn-outline-dark" id="search-btn"></input>
+    </form>
+  </nav>
+  <div style="background-color: brown; color: yellow;">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <p>{{message}}</p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    </div>
+<h3>Pending Requests</h3>
+{% if pending_requests|length >= 1 %}
+    <table class="table" style="width: 80%;margin-left: 2%;text-align: center;">
+        <tr class="table-light" >
+            <th>Student Roll No.</th>
+            <th>Student Name</th>
+            <th>Book ID</th>
+            <th>Book Title</th>
+            <th>Author</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        {% for request, student, book in pending_requests %}
+            <tr class="table-info">
+                <td>{{ student.rollno }}</td>
+                <td>{{ student.name }}</td>
+                <td>{{ book.id }}</td>
+                <td>{{ book.book_name }}</td>
+                <td>{{ book.author_1 }}</td>
+                <td>{{ request.status }}</td>
+                <td style="width: fit-content;"> 
+                    <form action="/update_request_status/{{ request.id }}" method="post" class="d-flex">
+                        <select name="status" class="form-select" style="margin-right: 2%;">
+                            <option value="pending">Pending</option>
+                            <option value="granted">Granted</option>
+                            <option value="declined">Declined</option>
+                        </select>
+                        <button type="submit" class="btn btn-outline-dark">Update</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p>No pending requests</p>
+{% endif %}
+
+
+{% endblock %}

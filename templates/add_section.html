@@ -1,0 +1,61 @@
+{% extends "base_layout.html" %}
+{% block title %}Library Management System - Librarian Add section Page{% endblock %}
+{% block content %}
+  <div class="header">
+    <h1>Librarian's Add Section Page</h1>
+    <a href="/logout" class="btn btn-outline-info btn-lg">Logout</a>
+  </div>
+  <nav class="navbar" style="background-color: aqua;">
+    <a href="/librarian_dashboard/librarian_stats" style="color: #EA445A;text-decoration: none;">Stats</a>
+    <a href="/librarian_dashboard/add_books" style="color: #EA445A;text-decoration: none;">Add Books</a>
+    <a href="/librarian_dashboard/pending_requests" style="color: #EA445A;text-decoration: none;">Pending Requests</a>
+    <a href="/librarian_dashboard" style="color: #EA445A;text-decoration: none;">Back to Dashboard</a>
+    <form method="POST" action="/search_books" class="d-flex" role="search">
+        <input type="text" name="query" placeholder="Search books"class="form-control me-2" style="color: black;">
+        <select name="filter" placeholder="" class="form-select" id="search-form">
+            <option value="book_name">Book Title</option>
+            <option value="author">Author</option>
+            <option value="section">Section</option>
+            <option value="all">All Books</option>
+        </select>
+        <input type="submit"value="Search" class="btn btn-outline-dark" id="search-btn"></input>
+    </form>
+  </nav>
+  <div style="background-color: brown; color: yellow;">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <p>{{message}}</p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    </div>
+
+    <div class="row justify-content-center align-items-center" >
+        <div class="col-md-6">
+        <form method="post" class="p-4 shadow-lg">
+            <h3>Add New Section</h3>
+            <div class="row mb-3 form-group">
+                <label for="title"  style="color: aqua;">Title:</label>
+                <div class="col-sm-10">
+                <input type="text" name="title" class="form-control">
+                </div>
+            </div>
+            <div class="row mb-3 form-group">
+                <label for="date_created" style="color: aqua;">Date Created:</label>
+                <div class="col-sm-10">
+                    <input type="date" name="date_created" class="form-control" >
+                </div>
+            </div>
+        <div class="row mb-3 form-group">
+        <label for="description" style="color: aqua;">Description:</label>
+        <div class="col-sm-10">
+            <textarea id="description" name="description" rows="4" class="form-control" ></textarea>
+        </div>
+        </div>
+        <input name ="cancel-btn" value="Cancel" type="submit" formaction="/librarian_dashboard" class="btn btn-outline-danger btn-lg">
+        <input name = "submit-btn" value="Submit" type="submit" class="btn btn-outline-info btn-lg">
+    </form>
+        </div>
+        </div>
+{% endblock%}

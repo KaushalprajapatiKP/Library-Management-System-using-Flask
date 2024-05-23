@@ -1,0 +1,92 @@
+{% extends "base_layout.html" %}
+{% block title %}Library Management System - Student Edit Profile Page{% endblock %}
+{% block content %}
+  <div class="header">
+    <h1>{{user.name}} {{user.surname}}'s  Edit Profile Page</h1>
+    <a href="/logout" class="btn btn-outline-info btn-lg">Logout</a>
+  </div>
+  <nav class="navbar" style="background-color: aqua;">
+    <a href="/student_dashboard/all_books" style="color: #EA445A;text-decoration: none;">All Books</a>
+    <a href="/student_dashboard/my_books" style="color: #EA445A;text-decoration: none;">My Books</a>
+    <a href="/student_dashboard" style="color: #EA445A;text-decoration: none;">Back to Dashboard</a>
+    <form method="POST" action="/search_books" class="d-flex" role="search">
+        <input type="text" name="query" placeholder="Search books"class="form-control me-2" style="color: black;">
+        <select name="filter" placeholder="" class="form-select" id="search-form">
+            <option value="book_name">Book Title</option>
+            <option value="author">Author</option>
+            <option value="section">Section</option>
+            <option value="all">All Books</option>
+        </select>
+        <input type="submit"value="Search" class="btn btn-outline-dark" id="search-btn"></input>
+    </form>
+  </nav>
+  <div style="background-color: black; color: yellow;">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <p>{{message}}</p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    </div>
+
+    <h3>Edit Profile</h3>
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-6">
+        <form method="POST" class="p-4 shadow-lg ">
+            <div class="row mb-3 form-group">
+                <label for="username" style="color: aqua;">Username:</label>
+                <div class="col-sm-10">
+                    <input type="text" name="username" class="form-control" value="{{user.username}}" readonly >
+                </div>
+            </div>
+            <div class="row mb-3 form-group">
+                <label for="name" style="color: aqua;">Name:</label>
+                <div class="col-sm-10">
+                    <input type="text" name="name" class="form-control" value="{{user.name}}">
+                </div>
+            </div>
+                <div class="row mb-3 form-group">
+                <label for="surname" style="color: aqua;">Surname:</label>
+                <div class="col-sm-10">
+                    <input type="text" name="surname" class="form-control" value="{{user.surname}}">
+                </div>
+            </div>
+            <div class="row mb-3 form-group">
+                <label for="rollno" style="color: aqua;">Roll Number:</label>
+                <div class="col-sm-10">
+                    <input type="text" name="rollno" class="form-control" value="{{user.rollno}}" readonly>
+                </div>
+            </div>
+            <div class="row mb-3 form-group">
+                <label for="dob" style="color: aqua;">Date of Birth:</label>
+                <div class="col-sm-10">
+                    <input type="date" name="dob" class="form-control" value="{{user.dateofbirth}}">
+                </div>
+            </div>
+            <div class="row mb-3 form-group">
+                <label for="gender" style="color: aqua;">Gender:</label>
+                <div class="col-sm-10">
+                    <select type="gender" name="gender" class="form-select">
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-3 form-group">
+                <label for="c_password" style="color: aqua;">Current Password:</label>
+                <div class="col-sm-10">
+                    <input type="password" name="c_password" class="form-control" required>
+                </div>
+            </div>
+            <div class="row mb-3 form-group">
+                <label for="n_password" style="color: aqua;">New Password:</label>
+                <div class="col-sm-10">
+                    <input type="password" name="n_password" class="form-control" required>
+                </div>
+            </div>
+            <input type="submit" value="Save Changes" class="btn btn-outline-info btn-lg form-group">
+        </form>  
+    
+{%endblock%}

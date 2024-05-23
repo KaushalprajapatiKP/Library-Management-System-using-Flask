@@ -1,0 +1,48 @@
+{% extends "base_layout.html" %}
+{% block title %}Library Management System - Payment Gateway{% endblock %}
+{% block content %}
+  <div class="header">
+    <h1>Payment Gateway</h1>
+    <a href="/logout" class="btn btn-outline-info btn-lg">Logout</a>
+  </div>
+    <h3>Credit/Debit Card Payment</h3>
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-6">
+            <form action="/upi_payment/{{book_id}}" method="post" class="p-4 shadow-lg ">
+                <p style=" color:#EA445A; font-size: medium;">Enter your card details</p>
+                    <div class="row mb-3 form-group">
+                        <label for="card_number" style="color: aqua;">Card Number:</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="card_number" name="card_number" required class="form-control" pattern="[0-9]{16}" title="16 digits">
+                        </div>
+                        </div>
+                        <div class="row mb-3 form-group">
+                        <label for="cvv" style="color: aqua;">CVV:</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="cvv" name="cvv" required pattern="[0-9]{3}" title="3 digits" class="form-control">
+                        </div>
+                        </div>
+                        
+                        <div class="row mb-3 form-group">
+                        <label for="card_name" style="color: aqua;">Name on Card:</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="card_name" name="card_name" class="form-control" required>
+                        </div>
+                        </div>
+                        
+                        <div class="row mb-3 form-group">
+                        <label for="expiry_date" style="color: aqua;">Expiry Date:</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="expiry_date" name="expiry_date" class="form-control" required placeholder="MM/YYYY">
+                        </div>
+                        </div>
+                        
+                        <div class="row mb-3 form-group">
+                        <label for="amount" style="color: aqua;">Total amount Payable:</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="amount" name="amount" value="399/-" readonly class="form-control">
+                        </div>
+                        </div>
+                    <input type="submit" value="Pay Now" class="btn btn-outline-info btn-lg form-group">
+            </form>
+{% endblock %}

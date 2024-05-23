@@ -1,0 +1,71 @@
+{% extends "base_layout.html" %}
+{% block title %}Library Management System - Student Registration Page{% endblock %}
+{% block content %}
+  <div class="header">
+    <h1>Library Management System</h1>
+    <a href="/" class="btn btn-outline-info btn-lg">Back to Home Page</a>
+  </div>
+  <div style="background-color: white;">
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for message in messages %}
+        <p>{{message}}</p>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+  </div>
+  <div class="row justify-content-center align-items-center">
+  <div class="col-md-6">
+  <form method="POST" class="p-4 shadow-lg ">
+    <h3>Student Registration Page</h3>
+    <div class="row mb-3 form-group">
+    <label for="username" style="color: aqua;">Username:</label>
+    <div class="col-sm-10">
+    <input type="text" name="username" class="form-control" required>
+    </div>
+    </div>
+    <div class="row mb-3 form-group">
+    <label for="name" style="color: aqua;">First Name:</label>
+    <div class="col-sm-10">
+    <input type="text" name="name" class="form-control">
+    </div>
+    </div>
+    <div class="row mb-3 form-group">
+    <label for="surname" style="color: aqua;">Last Name:</label>
+    <div class="col-sm-10">
+    <input type="text" name="surname" class="form-control">
+    </div>
+    </div>
+    <div class="row mb-3 form-group">
+    <label for="rollno" style="color: aqua;">Roll Number:</label>
+    <div class="col-sm-10">
+    <input type="text" name="rollno" class="form-control" required>
+    </div>
+    </div>
+    <div class="row mb-3 form-group">
+    <label for="dob" style="color: aqua;">Date of Birth:</label>
+    <div class="col-sm-10">
+    <input type="date" name="dob" class="form-control" >
+    </div>
+    </div>
+    <div class="row mb-3 form-group">
+    <label for="gender" style="color: aqua;">Gender:</label>
+    <div class="col-sm-10">
+    <select type="gender" name="gender" class="form-select">
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+      <option value="Other">Other</option>
+    </select>
+    </div>
+    </div>
+    <div class="row mb-3 form-group">
+    <label for="password" style="color: aqua;">Password:</label>
+    <div class="col-sm-10">
+    <input type="password" name="password" class="form-control" required>
+    </div>
+    </div>
+    <input type="submit" value="Register" class="btn btn-outline-info btn-lg form-group">
+  </form>  
+  </div>
+  </div>
+{% endblock %}

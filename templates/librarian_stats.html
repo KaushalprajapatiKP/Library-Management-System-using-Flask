@@ -1,0 +1,125 @@
+{% extends "base_layout.html" %}
+{% block title %}Library Management System - Librarian Stats Page{% endblock %}
+{% block content %}
+  <div class="header">
+    <h1>Librarian's Stats Page</h1>
+    <a href="/logout" class="btn btn-outline-info btn-lg">Logout</a>
+  </div>
+  <nav class="navbar" style="background-color: aqua;">
+    <a href="/librarian_dashboard/add_section" style="color: #EA445A;text-decoration: none;">Add Section</a>
+    <a href="/librarian_dashboard/add_books" style="color: #EA445A;text-decoration: none;">Add Books</a>
+    <a href="/librarian_dashboard/pending_requests" style="color: #EA445A;text-decoration: none;">Pending Requests</a>
+    <a href="/librarian_dashboard" style="color: #EA445A;text-decoration: none;">Back to Dashboard</a>
+    <form method="POST" action="/search_books" class="d-flex" role="search">
+        <input type="text" name="query" placeholder="Search books"class="form-control me-2" style="color: black;">
+        <select name="filter" placeholder="" class="form-select" id="search-form">
+            <option value="book_name">Book Title</option>
+            <option value="author">Author</option>
+            <option value="section">Section</option>
+            <option value="all">All Books</option>
+        </select>
+        <input type="submit"value="Search" class="btn btn-outline-dark" id="search-btn"></input>
+    </form>
+  </nav>
+  <div style="background-color: brown; color: yellow;">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <p>{{message}}</p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    </div>
+
+    <div>
+    <h3>All Available Books</h3>
+    {% if books|length >= 1 %}
+    <table class="table" style="width: 80%;margin-left: 2%;">
+        <tr class="table-light">
+            <th>Book ID</th>
+            <th>Book Title</th>
+            <th>Author</th>
+            <th>Section</th>
+            <th>Allotment Status</th>
+        </tr>
+            {% for book, section in books %}
+                <tr class="table-info">
+                    <td>{{ book.id }}</td>
+                    <td>{{ book.book_name }}</td>
+                    <td>{{ book.author_1 }}</td>
+                    <td>{{section.name}}</td>
+                    <td> 
+                        {% if book.requested%}
+                            Allotted/Requested
+                        {% else %}
+                            Not Allotted
+                        {% endif %}                        
+                    </td>
+                </tr>
+            {% endfor %}
+    </table>
+    {% else %}
+        <h3>No Books Available!</h3>
+    {% endif %}
+    </div>
+
+    <div >
+    <h3>Student details</h3>
+    {% if student_data|length >= 2 %}
+    <table class="table" style="width: 80%;margin-left: 2%;">
+        <tr class="table-light">
+            <th>Student ID</th>
+            <th>Roll No.</th>
+            <th>Student Name</th>
+            <th>Student Birth date</th>
+            <th>Gender</th>
+        </tr>
+            {% for student in student_data %}
+                {% if not student.is_librarian %}
+                <tr class="table-info">
+                    <td>{{ student.id }}</td>
+                    <td>{{ student.rollno }}</td>
+                    <td>{{ student.name }} {{ student.surname }}</td>
+                    <td>{{ student.dateofbirth }}</td>
+                    <td>{{ student.gender}}</td>
+                </tr>
+                {% endif %}
+            {% endfor %}
+    </table>
+    {% else %}
+        <h3>No Student Available!</h3>
+    {% endif %}
+    </div>
+
+    <div>
+    <h3>Allotted Books</h3>
+    {% if books_data|length >= 1 %}
+        <table class="table" style="width: 80%;margin-left: 2%;">
+            <tr class="table-info">
+                <th>Book ID</th>
+                <th>Book Title</th>
+                <th>Author</th>
+                <th>Student Roll No.</th>
+                <th>Student Name</th>
+                <th>Issued on</th>
+                <th>Return Date</th>
+                <th>Action</th>
+            </tr>
+            {% for request, student, book in books_data %}
+                <tr class="table-light">
+                    <td>{{ book.id }}</td>
+                    <td>{{ book.book_name }}</td>
+                    <td>{{ book.author_1 }}</td>
+                    <td>{{ student.rollno }}</td>
+                    <td>{{ student.name }}</td>
+                    <td>{{ book.issue_date.date() }}</td>
+                    <td>{{book.return_date.date()}}</td>
+                    <td><a href="{{ url_for('revoke_permission', book_id=book.id) }}" class="btn btn-outline-danger">Revoke Access</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+            <h3>No Current Allotted Books!</h3>
+    {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends "base_layout.html" %}
+{% block title %}Library Management System - Librarian Perticular section Page{% endblock %}
+{% block content %}
+  <div class="header">
+    <h1>Section:<B style="text-transform: capitalize;color:aqua">{{section.name}}</B> Page</h1>
+    <a href="/logout" class="btn btn-outline-info btn-lg">Logout</a>
+  </div>
+  <nav class="navbar" style="background-color: aqua;">
+    <a href="/librarian_dashboard/add_section" style="color: #EA445A;text-decoration: none;">Add Section</a>
+    <a href="/librarian_dashboard/add_books" style="color: #EA445A;text-decoration: none;">Add Books</a>
+    <a href="/librarian_dashboard/pending_requests" style="color: #EA445A;text-decoration: none;">Pending Requests</a>
+    <a href="/librarian_dashboard" style="color: #EA445A;text-decoration: none;">Back to Dashboard</a>
+    <form method="POST" action="/search_books" class="d-flex" role="search">
+        <input type="text" name="query" placeholder="Search books"class="form-control me-2" style="color: black;">
+        <select name="filter" placeholder="" class="form-select" id="search-form">
+            <option value="book_name">Book Title</option>
+            <option value="author">Author</option>
+            <option value="section">Section</option>
+            <option value="all">All Books</option>
+        </select>
+        <input type="submit"value="Search" class="btn btn-outline-dark" id="search-btn"></input>
+    </form>
+  </nav>
+  <div style="background-color: brown; color: yellow;">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <p>{{message}}</p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    </div>
+
+    <table class="table" style="margin-right: 2%;width:96%;margin-left: 2%;text-align:center;">
+        <tr class="table-light">
+            <th>#</th>
+            <th>Title</th>
+            <th>Authors</th>
+            <th>content</th>
+            <th>Action</th>
+        </tr>
+        {% for book in books %}
+        <tr class="table-info">
+            <td>{{loop.index}}</td>
+            <td>{{book.book_name}}</td>
+            <td>
+                {% if book.author_1 %}
+                    {{ book.author_1 }}
+                {% endif %}
+                {% if book.author_2 %}
+                    , {{ book.author_2 }}
+                {% endif %}
+                {% if book.author_3 %}
+                    , {{ book.author_3 }}
+                {% endif %}
+            </td>
+            <td>{{book.content}}</td>
+            <td><a href="/librarian_dashboard/edit_book/{{book.id}}" class="btn btn-outline-dark" style="margin:2%;">Edit Book</a>
+                <a href="/delete_book/{{book.id}}" class="btn btn-outline-danger" style="margin: 5%;">Delete Book</a></td>
+        </tr>
+        {% endfor %}
+</table>
+{%endblock%}
